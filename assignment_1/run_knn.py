@@ -39,20 +39,19 @@ def run_knn(k, train_data, train_labels, valid_data ,distance = "l2"):
     nearest = arg[:k]
     
     train_labels = train_labels.reshape(-1)
-    valid_labels = train_labels[nearest]
+    valid_labels = train_labels[nearest].T
 
     # note this only works for binary labels
     valid_labels = (np.mean(valid_labels, axis=1) >= 0.5).astype(np.int)
     valid_labels = valid_labels.reshape(-1,1)
 
-    return nearest.shape
-
+    return valid_labels
 if __name__ == "__main__":
     import utils
     train_img, train_label = utils.load_train()
     val_img, val_label  = utils.load_valid()
     print(run_knn(3,train_img.T,train_label,val_img.T))
-    print(val_img.shape)
-    print(train_img.shape)
+    # print(val_img.shape)
+    # print(train_img.shape)
 
     
