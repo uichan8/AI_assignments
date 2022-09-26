@@ -45,7 +45,7 @@ def run_knn(k, train_data, train_labels, valid_data ,distance = "l2"):
     valid_labels = (np.mean(valid_labels, axis=1) >= 0.5).astype(np.int)
     valid_labels = valid_labels.reshape(-1,1)
 
-    return valid_labels
+    return valid_labels, nearest
 if __name__ == "__main__":
     import utils
     train_img, train_label = utils.load_train()
