@@ -2,3 +2,5 @@ tqdm
 numpy
 matplotlib
 opencv-python
+future
+imageio
