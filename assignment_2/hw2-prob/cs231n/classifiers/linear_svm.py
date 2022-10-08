@@ -111,10 +111,12 @@ def svm_loss_vectorized(W, X, y, reg):
     margin_sum = margin_b.sum(axis = 1)
     margin_b[np.arange(0,num_train),y] = -margin_sum
 
-    X_new = X[:,np.newaxis]
-    X_new = X_new.T * margin_b.T
+    # X_new = X[:,np.newaxis]
+    # X_new = X_new.T * margin_b.T
+    # dW += X_new.sum(axis = 2)
 
-    dW += X_new.sum(axis = 2)
+    dW = X.T@margin_b
+
     dW /= num_train
     dW += 2*W*reg
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
