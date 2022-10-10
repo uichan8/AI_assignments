@@ -108,13 +108,17 @@ def softmax_loss_vectorized(W, X, y, reg):
     loss += reg * (W*W).sum()
 
     #back
-    dsm_dce = -1/sm
-    des_dsm = 
-    ds_des = 
-    dW_ds = 
+    dsm_dce = (-1/sm).reshape(-1,1) #500
+    des_dsm = np.zeros([num_train,num_classes]) 
+    des_dsm -= (e_scores[np.arange(num_train),y] / e_sum**2).reshape(-1,1)
+    des_dsm[np.arange(num_train),y] += 1/e_sum 
+    ds_des = np.exp(score)
+    dW_ds = X.T
     
-    
+    dW += dW_ds @ (ds_des * (des_dsm * dsm_dce))
+    dW /= num_train
 
+    dW += 2*W*reg
 
     
 
