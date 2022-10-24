@@ -55,11 +55,11 @@ class TwoLayerNet(object):
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        self.params['W1'] = np.random.randn() #이게 표준편차가 weight_scale에 따라 달라지는지를 좀 물어봐야됨
-        self.params['b1'] = np.zeros()
+        self.params['W1'] = np.random.normal(0, weight_scale, (input_dim,hidden_dim))
+        self.params['b1'] = np.zeros(hidden_dim)
 
-        self.params['W2'] = 
-        self.params['b2'] = np.zeros()
+        self.params['W2'] = np.random.normal(0, weight_scale, (hidden_dim,num_classes))
+        self.params['b2'] = np.zeros(num_classes)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -91,8 +91,11 @@ class TwoLayerNet(object):
         # class scores for X and storing them in the scores variable.              #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
+        #forward
+        X1, cache1 = affine_forward(X, self.params['W1'], self.params['b1'])
+        X2, cache2 = relu_forward(X1)
+        X3, cache3 = affine_forward(X2, self.params['W2'], self.params['b2'])
+        scores = X3
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -115,8 +118,20 @@ class TwoLayerNet(object):
         # of 0.5 to simplify the expression for the gradient.                      #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        loss, dx = softmax_loss(X3, y) # y가 none일 경우 오류가 안나는지
+        dx3, dw3, db3 = affine_backward(dx, cache3)
+        dx2         = relu_backward(dx3, cache2)
+        _, dw1, db1 = affine_backward(dx2, cache1)
+        
+        loss += self.reg * 0.5 * ((self.params['W1']**2).sum()  + (self.params['W2']**2).sum() )
+        dw1 += self.params['W1'] * self.reg
+        dw3 += self.params['W2'] * self.reg
 
-        pass
+        grads['W1'] = dw1
+        grads['b1'] = db1
+        grads['W2'] = dw3
+        grads['b2'] = db3
+        
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -124,3 +139,7 @@ class TwoLayerNet(object):
         ############################################################################
 
         return loss, grads
+
+
+if __name__ == "__main__":
+  ss = TwoLayerNet()
