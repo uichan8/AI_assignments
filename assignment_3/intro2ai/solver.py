@@ -99,6 +99,7 @@ class Solver(object):
           passed to the chosen update rule. Each update rule requires different
           hyperparameters (see optim.py) but all update rules require a
           'learning_rate' parameter so that should always be present.
+          #아마 모멘텀 이런거 추가해야 했을 때를 말하는듯 
         - lr_decay: A scalar for learning rate decay; after each epoch the
           learning rate is multiplied by this value.
         - batch_size: Size of minibatches used to compute loss and gradient
