@@ -113,7 +113,8 @@ class NaiveBayesClassifier:
         else: #내가 생각하는 방식
             for w in self.vocabulary:
                 for c in self.classes:
-                    self.loglikelihood[(w,c)] = math.log((count[c][w]+1)/(sum(count[c].values()) + 1))
+                    self.loglikelihood[(w,c)] = math.log((count[c][w]+1)/(sum(count[c].values()) + len(set(count[c].keys()))))
+        print(len(set(count[c].keys())))
 
         # # >>> END YOUR ANSWER <<< # #
   
@@ -182,9 +183,7 @@ class NaiveBayesClassifier:
         else: #내가 생각하는 방식
             for w in self.vocabulary:
                 for c in self.classes:
-                    self.loglikelihood[(w,c)] = math.log((count[c][w]+1)/(sum(count[c].values()) + 1))
-
-        
+                    self.loglikelihood[(w,c)] = math.log((count[c][w]+1)/(sum(count[c].values()) + len(set(count[c].keys()))))
         # # >>> END YOUR ANSWER <<< # #
 
 
