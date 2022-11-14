@@ -327,7 +327,3 @@ if __name__ == "__main__":
     target = 'relevant'
     print(f'Performance on class <{target.upper()}>, keeping stopwords')
     precision, recall, f1_score = clf.evaluate(test_dir = 'haiti/dev', target = target)
-    pass
-
-
-
